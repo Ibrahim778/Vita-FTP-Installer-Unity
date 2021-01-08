@@ -1,0 +1,10 @@
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\bin\Release\WinSCP.exe
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\bin\Release\VitaFTPI.exe.config
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\bin\Release\VitaFTPI.exe
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\bin\Release\VitaFTPI.pdb
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\bin\Release\WinSCPnet.dll
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.csprojAssemblyReference.cache
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.csproj.CoreCompileInputs.cache
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.csproj.CopyComplete
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.exe
+C:\Users\Ibrahim\source\repos\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.pdb
