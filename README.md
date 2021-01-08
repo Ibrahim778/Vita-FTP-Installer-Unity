@@ -24,7 +24,7 @@ This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to 
 5. Team Molecule for Henkaku
 6. @CTPEJIOK22 for giving me the idea on discord
 7. @asdronin on discord for making the server
-8. iDevOnAParkingLot on Discord for inviting me to the server
+8. @iDevOnAParkingLot on Discord for inviting me to the server
 9. Sony for the console and SDK
 10. Anyone else who helped out on the discord Server.
 
