@@ -18,9 +18,9 @@ This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to 
 1. USB mode currently doesn't work properly. The VPK doesn't get installed and the rest of the files are copied.
 
 # Credits: 
-1. Jordi at jllopisol@gmail.com
+1. Jordi at jllopisol@gmail.com for making the original program
 2. WinSCP
-3. Sillica
+3. Sillica for UnityTools
 4. TheOfficialFlow for making our vita's hackable on newer firmwares
 5. Team Molecule for Henkaku
 6. @CTPEJIOK22 for giving me the idea on discord
