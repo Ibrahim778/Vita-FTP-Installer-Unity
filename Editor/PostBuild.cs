@@ -10,7 +10,6 @@ public class PostBuild {
 
     public static UploadData data = new UploadData();
     public static string UploaderPath;
-    public static bool UseUSB = true;
 
     [PostProcessBuildAttribute(1)]
     public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) 
@@ -34,7 +33,7 @@ public class PostBuild {
     {
         Process VitaFTPI = new Process();
         VitaFTPI.StartInfo.FileName = UploaderPath + "\\VitaFTPI.exe";
-        string Args = "--ip " + data.IP + " --vpk " + data.File_Name + ".vpk" + " --usb " + boolToString(UseUSB) + " --drive-letter " + data.DriveLetter;
+        string Args = "--ip " + data.IP + " --vpk " + data.File_Name + ".vpk" + " --usb " + boolToString(data.UseUSB) + " --drive-letter " + data.DriveLetter;
         UnityEngine.Debug.Log(Args);
         VitaFTPI.StartInfo.Arguments = Args;
         VitaFTPI.Start();
@@ -58,5 +57,7 @@ public class PostBuild {
 
         //Only use this when UseUSB in set to true. This will transfer the VPK over usb but still install it via ftp so the ftpanywhere plugin is required.
         public string DriveLetter = "E:";
+        // Set this to false for now it doesn't work properly
+        public bool UseUSB = false;
     }
 }
