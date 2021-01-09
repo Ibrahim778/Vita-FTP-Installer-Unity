@@ -73,6 +73,7 @@ namespace VitaFTPI
                 //Checking if the input file specified exists
                 Console.WriteLine("No file found. Check your input path and make sure to include the file extension.\nFor Example:\napp.vpk");
                 Console.WriteLine(VPKPath);
+                return;
             }
 
             ConfigureOptions();
@@ -163,7 +164,11 @@ namespace VitaFTPI
             Console.WriteLine("Extracting VPK");
             if (!Directory.Exists(ExtractDirectory + "sce_sys") || !File.Exists(ExtractDirectory + "eboot.bin"))
             {
-                Console.WriteLine("Invalid VPK");
+                Console.WriteLine("Invalid VPK closing in 5 seconds...");
+                //Sleeping for 5000 milliseconds (so 5 seconds)
+                Thread.Sleep(5000);
+                //Closing with exit code 0 so windows won't give and error and start it's troubleshooter or whatever
+                Environment.Exit(0);
                 return;
             }
 
