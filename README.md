@@ -17,6 +17,7 @@ This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to 
 
 # Known issues:
 1. USB mode currently doesn't work properly. The VPK doesn't get installed and the rest of the files are copied.
+2. Works on some systems and not on others. A patch should be released soon for this.
 
 # Credits: 
 1. Jordi at jllopisol@gmail.com for making the original program
