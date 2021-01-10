@@ -17,7 +17,7 @@ namespace VitaFTPI
         static string Command = "PROM ";
         static int port = 1337;
         static SessionOptions sessionOptions;
-        static string SendPath = "ux0:/FTPVPK/sent.vpk";
+        static string SendPath = "ux0:/data/sent.vpk";
         static string AppID;
 
         static string BaseDirectory = "C:\\temp\\";
@@ -73,6 +73,7 @@ namespace VitaFTPI
                 //Checking if the input file specified exists
                 Console.WriteLine("No file found. Check your input path and make sure to include the file extension.\nFor Example:\napp.vpk");
                 Console.WriteLine(VPKPath);
+                Thread.Sleep(5000);
                 return;
             }
 
@@ -93,14 +94,14 @@ namespace VitaFTPI
                 TransferOptions toptions = new TransferOptions();
                 toptions.TransferMode = TransferMode.Binary;
                 Console.WriteLine("Installing VPK");
-                session.ExecuteCommand("PROM ux0:/FTPVPK/sent.vpk");
+                session.ExecuteCommand("PROM ux0:/data/sent.vpk");
             }
         }
 
         static void CopyInstall()
         {
             Console.WriteLine("Now copying the Base VPK over USB");
-            File.Copy(BaseVPK, driveLetter + "\\FTPVPK\\sent.vpk",true);
+            File.Copy(BaseVPK, driveLetter + "\\data\\sent.vpk",true);
             using(Session session = new Session())
             {
                 session.Open(sessionOptions);
@@ -111,7 +112,7 @@ namespace VitaFTPI
                 while(!File.Exists(driveLetter + "\\app\\" + param.TITLEID + "\\eboot.bin"))
                 {
                     Console.WriteLine("Installing VPK");
-                    session.ExecuteCommand("PROM ux0:/FTPVPK/sent.vpk");
+                    session.ExecuteCommand("PROM ux0:/data/sent.vpk");
                     Thread.Sleep(5000);
                 }
                 Console.WriteLine("Now copying the rest of the VPK files...");
@@ -227,8 +228,6 @@ namespace VitaFTPI
                 session.Timeout = TimeSpan.FromSeconds(120000.0);
                 TransferOptions options = new TransferOptions();
                 options.TransferMode = TransferMode.Binary;
-                //Now we create the remote directory for transfering th VPK
-                session.CreateDirectory("ux0:/FTPVPK/");
                 //We start the transfer and store the result in a variable
                 Console.WriteLine("Now uploading the base VPK");
                 TransferOperationResult result = session.PutFiles(BaseVPK, SendPath, false, options);
