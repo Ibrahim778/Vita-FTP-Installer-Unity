@@ -20,7 +20,7 @@ namespace VitaFTPI
         static string SendPath = "ux0:/data/sent.vpk";
         static string AppID;
 
-        static string BaseDirectory = ".\\temp\\";
+        static string BaseDirectory = "C:\\VitaFTPI\\";
         static string ExtractDirectory = BaseDirectory + "Extracted\\";
         static string BaseFiles = BaseDirectory + "Base Files\\";
         static string MediaFiles = BaseDirectory + "Media Files\\";
