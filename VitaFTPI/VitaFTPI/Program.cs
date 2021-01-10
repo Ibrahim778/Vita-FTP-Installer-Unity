@@ -227,6 +227,8 @@ namespace VitaFTPI
                 session.Timeout = TimeSpan.FromSeconds(120000.0);
                 TransferOptions options = new TransferOptions();
                 options.TransferMode = TransferMode.Binary;
+                //Now we create the remote directory for transfering th VPK
+                session.CreateDirectory("ux0:/FTPVPK/");
                 //We start the transfer and store the result in a variable
                 Console.WriteLine("Now uploading the base VPK");
                 TransferOperationResult result = session.PutFiles(BaseVPK, SendPath, false, options);
