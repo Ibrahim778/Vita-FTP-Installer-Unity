@@ -14,7 +14,7 @@ namespace PeXploit
 {
     public class PARAM_SFO
     {
-        public PARAM_SFO(string filepath) => this.Init((Stream)new FileStream("C:\\VitaFTPI\\Base Files\\sce_sys\\param.sfo", FileMode.Open, FileAccess.Read, FileShare.Read));
+        public PARAM_SFO(string filepath) => this.Init((Stream)new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read));
 
         public PARAM_SFO(byte[] inputdata) => this.Init((Stream)new MemoryStream(inputdata));
 

@@ -20,7 +20,7 @@ namespace VitaFTPI
         static string SendPath = "ux0:/data/sent.vpk";
         static string AppID;
 
-        static string BaseDirectory = "C:\\VitaFTPI\\";
+        static string BaseDirectory = "temp\\";
         static string ExtractDirectory = BaseDirectory + "Extracted\\";
         static string BaseFiles = BaseDirectory + "Base Files\\";
         static string MediaFiles = BaseDirectory + "Media Files\\";
@@ -29,8 +29,9 @@ namespace VitaFTPI
 
         static void Main(string[] args)
         {
+            Directory.SetCurrentDirectory("Uploader");
 
-            if(args.Length == 0)
+            if (args.Length == 0)
             {
                 Console.WriteLine("No input specified Aboring!");
                 return;
@@ -65,6 +66,8 @@ namespace VitaFTPI
             if(VitaIP == "" || VPKPath == "")
             {
                 Console.WriteLine("Invalid Arguments Aborting!");
+                Thread.Sleep(5000);
+                return;
             }
                
 
