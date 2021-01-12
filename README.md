@@ -31,3 +31,5 @@ This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to 
 9. Sony for the console and SDK
 10. Anyone else who helped out on the discord Server.
 
+# Note
+If you see a commit on the source code of the app and no release is published you can get a build from the bin/Release folder in the source code :D
