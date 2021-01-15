@@ -264,7 +264,8 @@ namespace VitaFTPI
 
         static void ProgressChanged(object sender, FileTransferProgressEventArgs e)
         {
-            Console.WriteLine(e.OverallProgress * 100 + "%");
+            Console.Clear();
+            Console.WriteLine("Uploading: " + e.OverallProgress * 100 + "%");
         }
 
         static void UnZipFile(string path, string outputDir)
