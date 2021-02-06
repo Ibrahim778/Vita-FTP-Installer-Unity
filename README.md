@@ -3,7 +3,7 @@ This is a tool to be used with Sillica's Unity Tools and unity for quickly insta
 This tool is based off of a program made my Jordi at jllopisol@gmail.com. This program wouldn't be possible without his work so if you like this program consider donating to him via paypal [here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMFDRTBU49E8E)
 
 This program also uses Sillica's UnityTools for building the game and this wouldn't be possible without it either.
-This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to those guys as well.
+This also uses WinSCP to transfer files and commands over FTP so credit goes to those guys as well.
 
 # How to use: 
 1. Download and extract the Tools.zip folder from the releases tab.
