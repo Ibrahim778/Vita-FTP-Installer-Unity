@@ -1,18 +1,17 @@
 # What is it?
 This is a tool to be used with Sillica's Unity Tools and unity for quickly installing unity games for the vita over FTP.
-This tool is based off of a program made my Jordi at jllopisol@gmail.com. This program wouldn't be possible without his work so if you like this program consider donating to him via paypal at: 
-
-https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMFDRTBU49E8E
+This tool is based off of a program made my Jordi at jllopisol@gmail.com. This program wouldn't be possible without his work so if you like this program consider donating to him via paypal [here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMFDRTBU49E8E)
 
 This program also uses Sillica's UnityTools for building the game and this wouldn't be possible without it either.
 This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to those guys as well.
 
 # How to use: 
-1. Download and extract the Tools.zip folder from the releases
+1. Download and extract the Tools.zip folder from the releases tab.
 1. Copy the Editor folder to your assets folder.
-1. Change the values in the script in the Editor folder to match your vita's
+1. Change the values in the script in the Editor folder to match your vita's.
 1. Copy the Uploader folder to the root of your project directory (So thats the parent directory of the Assets folder).
 1. Make sure your vita has vitacompanion installed. It's a plugin by devnoname120.
+1. Install the vita app for this plugin from [here](https://github.com/Ibrahim778/Unity-Loader/releases).
 1. Try to build like normal and sit back and relax.
 
 # Known issues:
