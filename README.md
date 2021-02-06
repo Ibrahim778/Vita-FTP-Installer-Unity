@@ -21,6 +21,7 @@ This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to 
 
 # Credits: 
 1. Jordi at jllopisol@gmail.com for making the original program
+1. __*HUGE*__ thanks to Sillica, TheFlow, DevNoName120,Rinnegateremante (sorry if I misspelled your name) for answering all of my questions.
 1. WinSCP
 1. Sillica for UnityTools
 1. TheOfficialFlow for making our vita's hackable on newer firmwares
