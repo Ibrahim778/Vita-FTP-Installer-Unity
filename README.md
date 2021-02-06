@@ -33,3 +33,4 @@ This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to 
 
 # Note
 If you see a commit on the source code of the app and no release is published you can get a build from the bin/Release folder in the source code :D
+but do remember that these releases are untested and have random changes that could break everything.
