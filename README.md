@@ -21,15 +21,15 @@ This ALSO uses WinSCP to transfer files and commands over FTP so credit goes to 
 
 # Credits: 
 1. Jordi at jllopisol@gmail.com for making the original program
-2. WinSCP
-3. Sillica for UnityTools
-4. TheOfficialFlow for making our vita's hackable on newer firmwares
-5. Team Molecule for Henkaku
-6. @CTPEJIOK22 for giving me the idea on discord
-7. @asdronin on discord for making the server
-8. @iDevOnAParkingLot on Discord for inviting me to the server
-9. Sony for the console and SDK
-10. Anyone else who helped out on the discord Server.
+1. WinSCP
+1. Sillica for UnityTools
+1. TheOfficialFlow for making our vita's hackable on newer firmwares
+1. Team Molecule for Henkaku
+1. @CTPEJIOK22 for giving me the idea on discord
+1. @asdronin on discord for making the server
+1. @iDevOnAParkingLot on Discord for inviting me to the server
+1. Sony for the console and SDK
+1. Anyone else who helped out on the discord Server.
 
 # Note
 If you see a commit on the source code of the app and no release is published you can get a build from the bin/Release folder in the source code :D
