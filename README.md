@@ -32,7 +32,6 @@ This also uses WinSCP to transfer files and commands over FTP so credit goes to 
 1. Anyone else who helped out on the discord servers.
 
 # Notes:
-1.If you see a commit on the source code of the app and no release is published you can get a build from the bin/Release folder in the source code :D
+1. If you see a commit on the source code of the app and no release is published you can get a build from the bin/Release folder in the source code :D
 but do remember that these releases are untested and have random changes that could break everything.
-
-1.Version one of the app only worked with vitashells ftp making it useless and is no longer suppourted. Version 2 of the app requires 
+1. Version one of the app only worked with vitashells ftp making it useless and is no longer suppourted. Version 2 of the app requires 
