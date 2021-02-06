@@ -51,11 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions.cs" />
-    <Compile Include="PARAM_SFO.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecureFileInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
