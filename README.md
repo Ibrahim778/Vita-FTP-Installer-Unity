@@ -11,7 +11,7 @@ This also uses WinSCP to transfer files and commands over FTP so credit goes to 
 1. Change the values in the script in the Editor folder to match your vita's.
 1. Copy the Uploader folder to the root of your project directory (So thats the parent directory of the Assets folder).
 1. Make sure your vita has vitacompanion installed. It's a plugin by devnoname120.
-1. Install the vita app for this plugin from [here](https://github.com/Ibrahim778/Unity-Loader/releases).
+1. Install the vita app for this tool from [here](https://github.com/Ibrahim778/Unity-Loader/releases).
 1. Try to build like normal and sit back and relax.
 
 # Known issues:
