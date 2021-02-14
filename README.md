@@ -5,6 +5,8 @@ This tool is based off of a program made my Jordi at jllopisol@gmail.com. This p
 This program also uses Sillica's UnityTools for building the game and this wouldn't be possible without it either.
 This also uses WinSCP to transfer files and commands over FTP so credit goes to those guys as well.
 
+Do note that you NEED vitashell to be installed to use usb mode. You should already have vitashell installed so you can ignore this in most cases.
+
 # How to use: 
 1. Download and extract the Tools.zip folder from the releases tab.
 1. Copy the Editor folder to your assets folder.
