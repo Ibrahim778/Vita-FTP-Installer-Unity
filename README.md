@@ -30,7 +30,8 @@ Do note that you NEED vitashell to be installed to use usb mode. You should alre
 1. @CTPEJIOK22 for giving me the idea on discord
 1. @asdronin on discord for making the server
 1. @iDevOnAParkingLot on Discord for inviting me to the server
-1. Sony for the console and SDK
+1. Sony for the console.
+1. Everyone who contributed to VitaSDK. 
 1. Anyone else who helped out on the discord servers.
 
 # FAQ:
