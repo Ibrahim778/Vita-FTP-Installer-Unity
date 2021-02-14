@@ -31,6 +31,11 @@ This also uses WinSCP to transfer files and commands over FTP so credit goes to 
 1. Sony for the console and SDK
 1. Anyone else who helped out on the discord servers.
 
+# FAQ:
+1. What do I put in drive letter?
+Ans: You should only care about this if you are using USB mode you can enable / disable it by changing UseUSB to true. If you are using USB then you can go into vitashell connect your PSVITA to your pc via usb and note the drive letter you can set that as the letter and disconnect the vita now.
+
+
 # Notes:
 1. If you see a commit on the source code of the app and no release is published you can get a build from the bin/Release folder in the source code :D
 but do remember that these releases are untested and have random changes that could break everything.
