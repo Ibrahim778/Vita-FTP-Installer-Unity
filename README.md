@@ -33,6 +33,7 @@ This also uses WinSCP to transfer files and commands over FTP so credit goes to 
 
 # FAQ:
 1. What do I put in drive letter?
+
 Ans: You should only care about this if you are using USB mode you can enable / disable it by changing UseUSB to true. If you are using USB then you can go into vitashell connect your PSVITA to your pc via usb and note the drive letter you can set that as the letter and disconnect the vita now.
 
 
