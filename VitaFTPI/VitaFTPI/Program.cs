@@ -1,35 +1,34 @@
 ﻿using System;
+using System.Net.Sockets;
 using System.IO;
-using System.IO.Compression;
 using WinSCP;
-using PeXploit;
 using System.Threading;
+
+enum StorageType
+{
+    Unconfigured,
+    sd2vita,
+    OFFICIAL
+}
 
 namespace VitaFTPI
 {
     class Program
     {
+        static StorageType storageType;
         static string driveLetter = "";
         static bool useUSB = false;
         static string VitaIP = "";
         static string VPKPath = "";
-        static string BaseVPK;
-        static string Command = "PROM ";
         static int port = 1337;
         static SessionOptions sessionOptions;
         static string SendPath = "ux0:/data/sent.vpk";
-        static string AppID;
-
-        static string BaseDirectory = "temp\\";
-        static string ExtractDirectory = BaseDirectory + "Extracted\\";
-        static string BaseFiles = BaseDirectory + "Base Files\\";
-        static string MediaFiles = BaseDirectory + "Media Files\\";
-
-        static PARAM_SFO param;
+        static string configDir = "ux0:/data/UnityLoader";
 
         static void Main(string[] args)
         {
-            Directory.SetCurrentDirectory("Uploader");
+            if (Directory.Exists("Uploader"))
+                Directory.SetCurrentDirectory("Uploader");
 
             if (args.Length == 0)
             {
@@ -37,7 +36,8 @@ namespace VitaFTPI
                 return;
             }
 
-            for(int x = 0; x < args.Length; x += 2)
+            //Setting all the arguments
+            for (int x = 0; x < args.Length; x += 2)
             {
                 if (args[x] == "--vpk")
                 {
@@ -47,6 +47,10 @@ namespace VitaFTPI
                 {
                     VitaIP = args[x + 1];
                 }
+                if(args[x] == "port")
+                {
+                    port = int.Parse(args[x + 1]);
+                }
                 if (args[x] == "--usb")
                 {
                     useUSB = (args[x + 1] == "true");
@@ -55,72 +59,203 @@ namespace VitaFTPI
                 {
                     driveLetter = args[x + 1];
                 }
-                if(args[x] == "--standalone-install")
+                if (args[x] == "--storage-type")
                 {
-                    StandAloneInstall();
-                    return;
+                    storageType = parseStorageType(args[x + 1]);
+                    if (storageType == StorageType.Unconfigured)
+                    {
+                        Console.WriteLine("Incorrect storage type given it should either be sd2vita or OFFICIAL remember it is case sensitive");
+                        return;
+                    }
                 }
             }
 
-
-            if(VitaIP == "" || VPKPath == "")
+            if (VitaIP == "" || VPKPath == "")
             {
                 Console.WriteLine("Invalid Arguments Aborting!");
                 Thread.Sleep(5000);
                 return;
             }
-               
+
 
             if (!File.Exists(VPKPath))
             {
                 //Checking if the input file specified exists
-                Console.WriteLine("No file found. Check your input path and make sure to include the file extension.\nFor Example:\napp.vpk");
+                Console.WriteLine("No file found. Check your input path and make sure to include the file extension.");
                 Console.WriteLine(VPKPath);
                 Thread.Sleep(5000);
                 return;
             }
 
             ConfigureOptions();
-            CreateVPK();
-            if (!useUSB) UploadVPK();
-            else CopyInstall();
-            ClearDirectories();
+            if (!useUSB) UploadInstall();
+            else USBInstall();
         }
 
-        static void StandAloneInstall()
+        static StorageType parseStorageType(string st)
         {
-            ConfigureOptions();
-            using(Session session = new Session())
+            if (st == "OFFICIAL")
+                return StorageType.OFFICIAL;
+
+            if (st == "sd2vita")
+                return StorageType.sd2vita;
+
+            return StorageType.Unconfigured;
+        }
+
+        static string StorageTypeToString(StorageType st)
+        {
+            if (st == StorageType.OFFICIAL)
+                return "OFFICIAL";
+
+            if (st == StorageType.sd2vita)
+                return "sd2vita";
+
+            return "unconfigured";
+        }
+
+        static void USBInstall()
+        {
+            using (Session session = new Session())
             {
+                session.FileTransferProgress += new FileTransferProgressEventHandler(ProgressChanged);
+                Console.WriteLine("Connecting to vita.");
                 session.Open(sessionOptions);
-                session.Timeout = TimeSpan.FromSeconds(120000.0);
                 TransferOptions toptions = new TransferOptions();
                 toptions.TransferMode = TransferMode.Binary;
-                Console.WriteLine("Installing VPK");
-                session.ExecuteCommand("PROM ux0:/data/sent.vpk");
+
+                //This part tells the app which settings we need and if we are ready
+                Console.WriteLine("Creating Config Directory");
+                if (!session.FileExists(configDir))
+                    session.CreateDirectory("ux0:/data/UnityLoader");
+
+                Console.WriteLine("Deleting Old Config Files...");
+
+                if (session.FileExists(configDir + "/USB"))
+                    session.RemoveFile(configDir + "/USB");
+
+                if (session.FileExists(configDir + "/COPYING"))
+                    session.RemoveFile(configDir + "/COPYING");
+
+                if (session.FileExists(configDir + "/EXTRACTED"))
+                    session.RemoveFile(configDir + "/EXTRACTED");
+
+                if (session.FileExists(configDir + "/sd2vita"))
+                    session.RemoveFile(configDir + "/sd2vita");
+
+                if (session.FileExists(configDir + "/OFFICIAL"))
+                    session.RemoveFile(configDir + "/OFFICIAL");
+
+                if (session.FileExists(configDir + "/CONFIG_READY"))
+                    session.RemoveFile(configDir + "/CONFIG_READY");
+
+                File.WriteAllText("dummy", "");
+
+                Console.WriteLine("Creating Config");
+
+                TransferOperationResult tresult = session.PutFiles("dummy", configDir + "/CONFIG_READY");
+                tresult.Check();
+                TransferOperationResult tresult2 = session.PutFiles("dummy", configDir + "/USB");
+                tresult2.Check();
+                TransferOperationResult tresult3 = session.PutFiles("dummy", configDir + "/" + StorageTypeToString(storageType));
+                tresult3.Check();
+                TransferOperationResult tresult4 = session.PutFiles("dummy", configDir + "/COPYING");
+                tresult4.Check();
+                Console.WriteLine("Config Sucess");
+
+                Console.WriteLine("Copying VPK");
+                LaunchUnityLoader();
+                while(!Directory.Exists(driveLetter + "/data"))
+                {
+                    Thread.Sleep(100);
+                }
+                File.Copy(VPKPath, driveLetter + "/data/sent.vpk",true);
+                session.RemoveFile(configDir + "/COPYING");
+                File.Delete("dummy");
+
+                session.Close();
             }
         }
 
-        static void CopyInstall()
+        static void UploadInstall()
         {
-            Console.WriteLine("Now copying the Base VPK over USB");
-            File.Copy(BaseVPK, driveLetter + "\\data\\sent.vpk",true);
             using(Session session = new Session())
             {
+                session.FileTransferProgress += new FileTransferProgressEventHandler(ProgressChanged);
+                Console.WriteLine("Connecting to vita.");
                 session.Open(sessionOptions);
-                session.Timeout = TimeSpan.FromSeconds(120000.0);
-                TransferOptions options = new TransferOptions();
-                options.TransferMode = TransferMode.Binary;
-                Console.WriteLine("Now installing base VPK");
-                while(!File.Exists(driveLetter + "\\app\\" + param.TITLEID + "\\eboot.bin"))
+                TransferOptions toptions = new TransferOptions();
+                toptions.TransferMode = TransferMode.Binary;
+
+                //This part tells the app which settings we need and if we are ready
+                Console.WriteLine("Creating Config Directory");
+                if (!session.FileExists(configDir))
+                    session.CreateDirectory("ux0:/data/UnityLoader");
+
+                Console.WriteLine("Deleting Old Config Files...");
+
+                if (session.FileExists(configDir + "/USB"))
+                    session.RemoveFile(configDir + "/USB");
+
+                if (session.FileExists(configDir + "/COPYING"))
+                    session.RemoveFile(configDir + "/COPYING");
+
+                if (session.FileExists(configDir + "/EXTRACTED"))
+                    session.RemoveFile(configDir + "/EXTRACTED");
+
+                if (session.FileExists(configDir + "/sd2vita"))
+                    session.RemoveFile(configDir + "/sd2vita");
+
+                if (session.FileExists(configDir + "/OFFICIAL"))
+                    session.RemoveFile(configDir + "/OFFICIAL");
+
+                if (session.FileExists(configDir + "/CONFIG_READY"))
+                    session.RemoveFile(configDir + "/CONFIG_READY");
+
+                File.WriteAllText("dummy","");
+
+                Console.WriteLine("Creating Config");
+
+                TransferOperationResult tresult = session.PutFiles("dummy", configDir + "/CONFIG_READY");
+                tresult.Check();
+                foreach(FileOperationEventArgs result in tresult.Transfers)
                 {
-                    Console.WriteLine("Installing VPK");
-                    session.ExecuteCommand("PROM ux0:/data/sent.vpk");
-                    Thread.Sleep(5000);
+                    Console.WriteLine("Upload of {0} successful", (object)result.FileName);
                 }
-                Console.WriteLine("Now copying the rest of the VPK files...");
-                CopyAll(new DirectoryInfo(MediaFiles), new DirectoryInfo(driveLetter + "\\app\\" + param.TITLEID));
+                Console.WriteLine("Config Sucess");
+
+
+
+                Console.WriteLine("Uploading VPK");
+                TransferOperationResult toresult = session.PutFiles(VPKPath, SendPath);
+                toresult.Check();
+                foreach(FileOperationEventArgs res in toresult.Transfers)
+                {
+                    Console.WriteLine("Upload of {0} successful", (object)res.FileName);
+                }
+                File.Delete("dummy");
                 session.Close();
+            }
+            LaunchUnityLoader();
+        }
+
+        static void LaunchUnityLoader()
+        {
+            Console.WriteLine("Launching Unity Loader on Vita");
+            using (TcpClient client = new TcpClient(VitaIP, 1338))
+            {
+                using (NetworkStream ns = client.GetStream())
+                {
+                    using (StreamWriter sw = new StreamWriter(ns))
+                    {
+                        sw.Write("launch UNITYLOAD\n");
+                        sw.Flush();
+                        using (StreamReader sr = new StreamReader(ns))
+                        {
+                            Console.Write(sr.ReadToEnd());
+                        }
+                    }
+                }
             }
         }
 
@@ -140,73 +275,9 @@ namespace VitaFTPI
             }
         }
 
-        static void ClearDirectories()
-        {
-            Directory.Delete(BaseDirectory, true);
-            Console.WriteLine("All operations completed successfully");
-            Console.WriteLine("Closing in 5 seconds...");
-            //sleeping in milliseconds
-            Thread.Sleep(5000);
-        }
-
-        static void CreateVPK()
-        {
-            //This function is the workaround. It lets us install the VPK via 1 command "PROM"
-
-            //We create all the necessary directories
-            Console.WriteLine("Creating Directories...");
-            recuresivelyCreateDirectory(BaseDirectory);
-            recuresivelyCreateDirectory(ExtractDirectory);
-            recuresivelyCreateDirectory(MediaFiles);
-            recuresivelyCreateDirectory(BaseFiles);
-
-            //first we extratct the contents of the VPK to a directory
-            Console.WriteLine("Extracting VPK");
-            UnZipFile(VPKPath, ExtractDirectory);
-
-            //First we check if the VPK has the necessary files
-            Console.WriteLine("Extracting VPK");
-            if (!Directory.Exists(ExtractDirectory + "sce_sys") || !File.Exists(ExtractDirectory + "eboot.bin"))
-            {
-                Console.WriteLine("Invalid VPK closing in 5 seconds...");
-                //Sleeping for 5000 milliseconds (so 5 seconds)
-                Thread.Sleep(5000);
-                //Closing with exit code 0 so windows won't give and error and start it's troubleshooter or whatever
-                Environment.Exit(0);
-                return;
-            }
-
-            //Then we move the base VPK files to the Base Files directory
-            Console.WriteLine("Moving base VPK files");
-            Directory.Move(ExtractDirectory + "sce_sys", BaseFiles + "sce_sys");
-            File.Move(ExtractDirectory + "eboot.bin", BaseFiles + "eboot.bin");
-
-            //Now we move the rest of the files to the Media Files directory for later
-            Console.WriteLine("Moving the rest of the files for later...");
-            foreach (string dirName in Directory.GetDirectories(ExtractDirectory))
-            {
-                string MoveToPath = System.Text.RegularExpressions.Regex.Replace(dirName, "Extracted", "Media Files");
-                Directory.Move(dirName, MoveToPath);
-            }
-
-            foreach (string fileName in Directory.GetFiles(ExtractDirectory))
-            {
-                string MoveToPath = System.Text.RegularExpressions.Regex.Replace(fileName, "Extracted", "Media Files");
-                File.Move(ExtractDirectory + fileName, MoveToPath);
-            }
-
-            //Now we remake the VPK with just the base files
-            Console.WriteLine("Remaking VPK with just base files..");
-            ZipFile.CreateFromDirectory(BaseFiles, BaseDirectory + "Base.vpk", CompressionLevel.Optimal, false);
-
-            BaseVPK = BaseDirectory + "Base.vpk";
-
-            //We set the param.sfo file for later use.
-            param = new PARAM_SFO(BaseFiles + "sce_sys\\param.sfo");
-        }
-
         static void ConfigureOptions()
         {
+            Console.WriteLine("Configuring options.");
             //Configure the options for the FTP transfer
             sessionOptions = new SessionOptions
             {
@@ -218,79 +289,10 @@ namespace VitaFTPI
             };
         }
 
-
-        static void UploadVPK()
-        {
-            using (Session session = new Session())
-            {
-                //We add an event handler
-                session.FileTransferProgress += new FileTransferProgressEventHandler(ProgressChanged);
-                //We start the FTP session
-                session.Open(sessionOptions);
-                //We set a timeout value and configure other options
-                session.Timeout = TimeSpan.FromSeconds(120000.0);
-                TransferOptions options = new TransferOptions();
-                options.TransferMode = TransferMode.Binary;
-                //We start the transfer and store the result in a variable
-                Console.WriteLine("Now uploading the base VPK");
-                TransferOperationResult result = session.PutFiles(BaseVPK, SendPath, false, options);
-                //We check if the transfer is successful (I think)
-                result.Check();
-                //We Write it in the log
-                foreach (FileOperationEventArgs transfer in result.Transfers)
-                {
-                    Console.WriteLine("Upload of {0} successful!", (object)transfer.FileName);
-                }
-
-                //We install the VPK
-                Console.WriteLine("Installing VPK");
-                session.ExecuteCommand(Command + SendPath);
-
-                //Now we find where the VPK installed to by looking for it's appid in the param.sfo file that we set earilier
-                AppID = param.TITLEID;
-
-                //Now we upload the rest of the VPK files
-                Console.WriteLine("Uploading rest of the necessary files for the VPK to it's app directory in ux0:/app/" + AppID);
-                TransferOperationResult res = session.PutFilesToDirectory(MediaFiles, "ux0:/app/" + AppID);
-                foreach (FileOperationEventArgs file in res.Transfers)
-                {
-                    Console.WriteLine("Upload of {0} successful!", (object)file.FileName);
-                }
-                //Now we close the FTP session
-                Console.WriteLine("Closing session");
-                session.Close();
-            }
-        }
-
         static void ProgressChanged(object sender, FileTransferProgressEventArgs e)
         {
             Console.Clear();
             Console.WriteLine("Uploading: " + e.OverallProgress * 100 + "%");
-        }
-
-        static void UnZipFile(string path, string outputDir)
-        {
-            //Checking if input exists
-            if (!File.Exists(path)) return;
-            //Checking if output directory exists otherwise we create it.
-            if (!Directory.Exists(outputDir)) Directory.CreateDirectory(outputDir);
-
-
-            if (Directory.GetFiles(outputDir).Length != 0)
-            {
-                Directory.Delete(outputDir);
-                Directory.CreateDirectory(outputDir);
-            }
-
-            ZipFile.ExtractToDirectory(path, outputDir);
-        }
-
-        static void recuresivelyCreateDirectory(string Path)
-        {
-            //We check if the directories already exist if they do we will delete them first
-            if (Directory.Exists(Path)) Directory.Delete(Path, true);
-
-            Directory.CreateDirectory(Path);
         }
     }
 }

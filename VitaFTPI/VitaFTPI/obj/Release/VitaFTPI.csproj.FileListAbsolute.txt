@@ -13,8 +13,8 @@ C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\bin\Rel
 C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\bin\Release\VitaFTPI.exe
 C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\bin\Release\VitaFTPI.pdb
 C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\bin\Release\WinSCPnet.dll
-C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.csprojAssemblyReference.cache
 C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.csproj.CoreCompileInputs.cache
 C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.csproj.CopyComplete
 C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.exe
 C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.pdb
+C:\Users\Ibrahim\Github\repos\Vita-FTP-Installer-Unity\VitaFTPI\VitaFTPI\obj\Release\VitaFTPI.csprojAssemblyReference.cache
