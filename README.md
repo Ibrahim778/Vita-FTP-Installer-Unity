@@ -1,3 +1,6 @@
+# Suppourt has ended.
+This version of the app used some version of .NET Framework. Since then this tool has been migrated to .NET Core. This version will no longer be updated. I strongly recommend you to use the .NET Core version [here](https://github.com/Ibrahim778/VitaFTPI-Core)
+
 # What is it?
 This is a tool to be used with Sillica's Unity Tools and unity for quickly installing unity games for the vita over FTP.
 
