@@ -29,6 +29,7 @@ Do note that you NEED vitashell to be installed to use usb mode. You should alre
 1. Jordi at jllopisol@gmail.com for making the original program
 1. __*HUGE*__ thanks to Sillica, TheFlow, DevNoName120, Rinnegatamante, sarcastic cat, s1ngyy and anyone else who helped for answering all of my questions.
 1. WinSCP
+1. TheOfficialFlow for the USB suppourt I stole the code for it from there.
 1. Sillica for UnityTools
 1. TheOfficialFlow for making our vita's hackable on newer firmwares
 1. Team Molecule for Henkaku
