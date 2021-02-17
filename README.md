@@ -47,7 +47,7 @@ Ans: You should only care about this if you are using USB mode you can enable / 
 
 **2. Can I use USB mode with udcv-uvc plugins?**
 
-Ans: As of now no; but suppourt is coming soon.
+Ans: Yes! As mentioned before it uses vitashells code / plugin for usb mode and it works fine with udcd_uvc.
 
 # Notes:
 1. If you see a commit on the source code of the app and no release is published you can get a build from the bin/Release folder in the source code :D
